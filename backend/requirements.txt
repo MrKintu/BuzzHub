@@ -1,5 +1,8 @@
+azure-ai-formrecognizer
+azure-identity
+azure-storage-blob
 dj-database-url
-Django
+Django~=5.0b1
 django-allauth
 django-appconf
 django-bootstrap4
@@ -16,8 +19,8 @@ django-storages
 gunicorn
 h11
 Pillow
+python-dotenv
 h2
 hpack
 hstspreload
 whitenoise
-

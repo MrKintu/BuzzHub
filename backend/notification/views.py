@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from notification.models import Notification
 
+
 def ShowNotification(request):
     user = request.user
     notifications = Notification.objects.filter(user=user).order_by('-date')
@@ -10,6 +11,7 @@ def ShowNotification(request):
 
     }
     return render(request, 'notifications/notification.html', context)
+
 
 def DeleteNotification(request, noti_id):
     user = request.user

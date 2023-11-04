@@ -8,12 +8,22 @@ from post.models import Post
 
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, related_name='profile', on_delete=models.CASCADE)
-    image = models.ImageField(upload_to="profile_pciture", null=True, default="default.jpg")
+    user = models.OneToOneField(User, related_name='profile',
+                                on_delete=models.CASCADE)
+    image = models.ImageField(upload_to="profile_pictures", null=True,
+                              default="default.jpg")
+    id_document = models.ImageField(upload_to="id_documents", null=True)
     first_name = models.CharField(max_length=200, null=True, blank=True)
     last_name = models.CharField(max_length=200, null=True, blank=True)
+    doc_id = models.CharField(max_length=200, null=True, blank=True)
+    d_o_b = models.DateTimeField(auto_now=False, auto_now_add=False, null=True,
+                                 blank=True)
+    d_o_e = models.DateTimeField(auto_now=False, auto_now_add=False, null=True,
+                                 blank=True)
+    email = models.EmailField(max_length=200, null=True, blank=True)
     bio = models.CharField(max_length=200, null=True, blank=True)
     location = models.CharField(max_length=200, null=True, blank=True)
+    nation = models.CharField(max_length=200, null=True, blank=True)
     url = models.URLField(max_length=200, null=True, blank=True)
     favourite = models.ManyToManyField(Post, blank=True)
 

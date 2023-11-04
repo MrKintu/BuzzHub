@@ -1,21 +1,26 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required
-from django.urls import reverse
-from django.http import HttpResponseRedirect
-from django.core.paginator import Paginator
-from django.db import transaction
-from django.contrib.auth.models import User
-from django.core.exceptions import ObjectDoesNotExist
+import json
+import os
+from pathlib import Path
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
-
-
-from post.models import Post, Follow, Stream
 from django.contrib.auth.models import User
-from authy.models import Profile
-from .forms import EditProfileForm, UserRegisterForm
+from django.core.paginator import Paginator
+from django.db import transaction
+from django.http import HttpResponseRedirect, HttpResponse
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import resolve
-from comment.models import Comment
+from django.urls import reverse
+from django.views.decorators.csrf import csrf_exempt
+from dotenv import load_dotenv
+
+from authy.models import Profile
+from post.models import Post, Follow, Stream
+from .forms import EditProfileForm, UserRegisterForm
+from .BlobHandler import get_files, upload
+
+load_dotenv()
+env = os.environ
+
 
 def UserProfile(request, username):
     Profile.objects.get_or_create(user=request.user)
@@ -28,7 +33,7 @@ def UserProfile(request, username):
         posts = Post.objects.filter(user=user).order_by('-posted')
     else:
         posts = profile.favourite.all()
-    
+
     # Profile Stats
     posts_count = Post.objects.filter(user=user).count()
     following_count = Follow.objects.filter(follower=user).count()
@@ -43,15 +48,16 @@ def UserProfile(request, username):
 
     context = {
         'posts': posts,
-        'profile':profile,
-        'posts_count':posts_count,
-        'following_count':following_count,
-        'followers_count':followers_count,
-        'posts_paginator':posts_paginator,
-        'follow_status':follow_status,
+        'profile': profile,
+        'posts_count': posts_count,
+        'following_count': following_count,
+        'followers_count': followers_count,
+        'posts_paginator': posts_paginator,
+        'follow_status': follow_status,
         # 'count_comment':count_comment,
     }
     return render(request, 'profile.html', context)
+
 
 def EditProfile(request):
     user = request.user.id
@@ -72,9 +78,10 @@ def EditProfile(request):
         form = EditProfileForm(instance=request.user.profile)
 
     context = {
-        'form':form,
+        'form': form,
     }
     return render(request, 'editprofile.html', context)
+
 
 def follow(request, username, option):
     user = request.user
@@ -98,29 +105,34 @@ def follow(request, username, option):
         return HttpResponseRedirect(reverse('profile', args=[username]))
 
 
+@csrf_exempt
 def register(request):
+    response = ''
     if request.method == "POST":
-        form = UserRegisterForm(request.POST)
-        if form.is_valid():
-            new_user = form.save()
-            # Profile.get_or_create(user=request.user)
-            username = form.cleaned_data.get('username')
-            messages.success(request, f'Hurray your account was created!!')
-
-            # Automatically Log In The User
-            new_user = authenticate(username=form.cleaned_data['username'],
-                                    password=form.cleaned_data['password1'],)
-            login(request, new_user)
-            # return redirect('editprofile')
-            return redirect('index')
-            
-
-
-    elif request.user.is_authenticated:
-        return redirect('index')
+        send = {
+            'label': 'This POST was successful.'
+        }
+        response = json.dumps(send)
     else:
-        form = UserRegisterForm()
-    context = {
-        'form': form,
-    }
-    return render(request, 'sign-up.html', context)
+        send = {
+            'label': 'This GET was successful.'
+        }
+        response = json.dumps(send)
+
+    return HttpResponse(response)
+
+
+def upload_passport(request):
+    if request.method == "GET":
+        BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
+        id_docs = get_files(f'{BASE_DIR}\\media\\id_documents')
+        container = env.get('USER_ID_CONTAINER')
+        status = upload(id_docs, container)
+
+        response = ''
+        if status:
+            response = 'Uploaded Successfully.'
+        else:
+            response = 'Upload failed.'
+
+        return HttpResponse(response)
