@@ -18,7 +18,7 @@ class Migration(migrations.Migration):
             model_name="profile",
             name="image",
             field=models.ImageField(
-                default="default.jpg", null=True, upload_to="profile_pictures"
+                default="default.jpg", null=True, upload_to="profile_picture"
             ),
         ),
     ]

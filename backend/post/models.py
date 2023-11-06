@@ -8,7 +8,6 @@ import uuid
 from notification.models import Notification
 
 
-
 # uploading user files to a specific directory
 def user_directory_path(instance, filename):
     return 'user_{0}/{1}'.format(instance.user.id, filename)
@@ -32,6 +31,7 @@ class Tag(models.Model):
         if not self.slug:
             self.slug = slugify(self.title)
         return super().save(*args, **kwargs)
+
 
 # class PostFileContent(models.Model):
 #     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -89,6 +89,7 @@ class Follow(models.Model):
         following = follow.following
         notify = Notification.objects.filter(sender=sender, user=following, notification_types=3)
         notify.delete()
+
 
 class Stream(models.Model):
     following = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='stream_following')

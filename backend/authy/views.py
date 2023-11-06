@@ -1,7 +1,6 @@
 import json
 import os
 from pathlib import Path
-from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
@@ -15,8 +14,9 @@ from dotenv import load_dotenv
 
 from authy.models import Profile
 from post.models import Post, Follow, Stream
-from .forms import EditProfileForm, UserRegisterForm
-from .BlobHandler import get_files, upload
+from .forms import EditProfileForm
+from .BlobHandler import get_files, upload, container_files, file_urls
+from .DocReader import analyse_ID
 
 load_dotenv()
 env = os.environ
@@ -108,6 +108,7 @@ def follow(request, username, option):
 @csrf_exempt
 def register(request):
     response = ''
+    model = Profile()
     if request.method == "POST":
         send = {
             'label': 'This POST was successful.'
@@ -122,17 +123,30 @@ def register(request):
     return HttpResponse(response)
 
 
+@csrf_exempt
 def upload_passport(request):
-    if request.method == "GET":
+    response = ''
+    if request.method == "POST":
+        # file_name = request.FILES['image1'].name
+        model = Profile()
+        model.id_document = request.FILES['image1']
+        model.save()
+        state = Profile.objects.last()
+        full_path = state.id_document.file.name
+        file_name = os.path.basename(full_path)
+
         BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
         id_docs = get_files(f'{BASE_DIR}\\media\\id_documents')
         container = env.get('USER_ID_CONTAINER')
-        status = upload(id_docs, container)
+        blob_files = container_files(container)
 
-        response = ''
+        status = upload(container, id_docs, blob_files)
         if status:
-            response = 'Uploaded Successfully.'
+            if file_name not in blob_files:
+                file_url = file_urls(file_name, container)
+                send = analyse_ID(file_url)
+                response = json.dumps(send)
         else:
             response = 'Upload failed.'
 
-        return HttpResponse(response)
+    return HttpResponse(response)

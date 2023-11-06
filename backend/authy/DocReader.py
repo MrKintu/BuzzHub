@@ -10,91 +10,61 @@ key = env.get('DOC_AI_KEY')
 endpoint = env.get('DOC_AI_ENDPOINT')
 
 
-def analyse_passport():
-    identityUrl = ("https://cs210032002b1ac1664.blob.core.windows.net/"
-                   "user-ids/Current Passport.pdf")
-
+def analyse_ID(fileURL):
     document_analysis_client = DocumentAnalysisClient(
         endpoint=endpoint, credential=AzureKeyCredential(key)
     )
 
     poller = document_analysis_client.begin_analyze_document_from_url(
-        "prebuilt-idDocument", identityUrl
+        "prebuilt-idDocument", fileURL
     )
     id_documents = poller.result()
 
     for idx, id_document in enumerate(id_documents.documents):
         first_name = id_document.fields.get("FirstName")
-        f_name = {}
+        f_name = ''
         if first_name:
-            f_name = {
-                'value': first_name.value,
-                'score': first_name.confidence
-            }
+            f_name = first_name.value
 
         last_name = id_document.fields.get("LastName")
-        l_name = {}
+        l_name = ''
         if last_name:
-            l_name = {
-                'value': last_name.value,
-                'score': last_name.confidence
-            }
+            l_name = last_name.value
 
         document_number = id_document.fields.get("DocumentNumber")
-        doc_num = {}
+        doc_num = ''
         if document_number:
-            doc_num = {
-                'value': document_number.value,
-                'score': document_number.confidence
-            }
+            doc_num = document_number.value
 
         dob = id_document.fields.get("DateOfBirth")
-        d_o_b = {}
+        d_o_b = ''
         if dob:
-            d_o_b = {
-                'value': dob.value,
-                'score': dob.confidence
-            }
+            d_o_b = str(dob.value)
 
         doe = id_document.fields.get("DateOfExpiration")
-        d_o_e = {}
+        d_o_e = ''
         if doe:
-            d_o_e = {
-                'value': doe.value,
-                'score': doe.confidence
-            }
+            d_o_e = str(doe.value)
 
         sex = id_document.fields.get("Sex")
-        sex_ = {}
+        sex_ = ''
         if sex:
-            sex_ = {
-                'value': sex.value,
-                'score': sex.confidence
-            }
+            sex_ = sex.value
 
         address = id_document.fields.get("Address")
-        address_ = {}
+        address_ = ''
         if address:
-            address_ = {
-                'value': address.value,
-                'score': address.confidence
-            }
+            address_ = address.value
 
         country_region = id_document.fields.get("CountryRegion")
-        country = {}
+        country = ''
         if country_region:
-            country = {
-                'value': country_region.value,
-                'score': country_region.confidence
-            }
+            country = str(country_region.value)
 
         region = id_document.fields.get("Region")
-        region_ = {}
+        region_ = ''
         if region:
-            region_ = {
-                'value': region.value,
-                'score': region.confidence
-            }
+            region_ = str(region.value)
 
         send = {
             'First_Name': f_name,
@@ -107,8 +77,8 @@ def analyse_passport():
             'Country': country,
             'Region': region_
         }
-        # return send
-        print(send)
+        return send
 
 
-analyse_passport()
+# fileURL = 'https://cs210032002b1ac1664.blob.core.windows.net/user-ids/Kintu-Declan-Trevor-Front.png'
+# print(analyse_ID(fileURL))
