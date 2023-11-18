@@ -1,0 +1,8 @@
+### Django template
+*.log
+*.pot
+*.pyc
+*.env
+__pycache__/
+media/
+logs/

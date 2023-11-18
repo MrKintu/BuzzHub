@@ -1,0 +1,11 @@
+https://learn.microsoft.com/en-gb/azure/ai-services/document-intelligence/quickstarts/get-started-sdks-rest-api?view=doc-intel-3.1.0&viewFallbackFrom=form-recog-3.0.0&preserve-view=true&pivots=programming-language-python
+
+https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/concept-id-document?view=doc-intel-3.1.0
+
+https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/how-to-guides/use-sdk-rest-api?view=doc-intel-3.1.0&preserve-view=true&tabs=windows&pivots=programming-language-python#create-your-python-application
+
+https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blob-upload-python
+
+https://learn.microsoft.com/en-us/azure/storage/blobs/storage-quickstart-blobs-python?tabs=managed-identity%2Croles-azure-portal%2Csign-in-visual-studio-code
+
+https://www.digitalocean.com/community/tutorials/how-to-serve-django-applications-with-uwsgi-and-nginx-on-ubuntu-16-04
