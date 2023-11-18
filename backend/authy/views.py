@@ -1,7 +1,7 @@
 import json
 import os
 from pathlib import Path
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.db import transaction
@@ -14,12 +14,115 @@ from dotenv import load_dotenv
 
 from authy.models import Profile
 from post.models import Post, Follow, Stream
-from .forms import EditProfileForm
 from .BlobHandler import get_files, upload, container_files, file_urls
 from .DocReader import analyse_ID
 
 load_dotenv()
 env = os.environ
+
+
+@csrf_exempt
+def upload_passport(request):
+    response = ''
+    if request.method == "POST":
+        model = Profile()
+        model.id_document = request.FILES['image1']
+        model.save()
+        state = Profile.objects.last()
+        full_path = state.id_document.file.name
+        file_name = os.path.basename(full_path)
+
+        BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
+        id_docs = get_files(f'{BASE_DIR}\\media\\id_documents')
+        container = env.get('USER_ID_CONTAINER')
+        blob_files = container_files(container)
+
+        status = upload(container, id_docs, blob_files)
+        if status:
+            if file_name not in blob_files:
+                file_url = file_urls(file_name, container)
+                details = analyse_ID(file_url)
+                send = {
+                    'file_name': file_name,
+                    'details': details
+                }
+                response = json.dumps(send)
+        else:
+            response = 'Upload failed.'
+
+    return HttpResponse(response)
+
+
+@csrf_exempt
+def register(request):
+    response = False
+    if request.method == "POST":
+        data = request.POST
+
+        user = User.objects.create_user(
+            username=data["username"],
+            password=data["password"],
+            email=data["email"],
+            first_name=data["first_name"],
+            last_name=data["last_name"]
+        )
+        user.save()
+        user_state = User.objects.get(username=data["username"])
+        profile = Profile.objects.filter(
+            id_document__endswith=data["file_name"])
+        model = Profile.objects.get(pk=profile[0].pk)
+        model.user = user_state
+        model.doc_id = data["doc_id"]
+        model.d_o_b = data["dob"]
+        model.d_o_e = data["doe"]
+        model.bio = data["bio"]
+        model.location = data["location"]
+        model.country = data["country"]
+        model.save()
+
+        response = True
+
+    return HttpResponse(response)
+
+
+@csrf_exempt
+def login_view(request):
+    response = False
+    if request.method == "POST":
+        data = request.POST
+        username = data["username"]
+        password = data["password"]
+
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            response = True
+        else:
+            response = False
+
+    return HttpResponse(response)
+
+
+@csrf_exempt
+def logout_view(request):
+    logout(request)
+
+
+@csrf_exempt
+def change_password(request):
+    response = False
+    if request.method == "POST":
+        user = request.user
+        data = request.POST
+
+        if user.is_authenticated():
+            user_state = User.objects.get(username=user.username)
+            user_state.set_password(data["new_password"])
+            user_state.save()
+
+            response = True
+
+    return HttpResponse(response)
 
 
 def UserProfile(request, username):
@@ -62,25 +165,14 @@ def UserProfile(request, username):
 def EditProfile(request):
     user = request.user.id
     profile = Profile.objects.get(user__id=user)
+    response = ''
 
     if request.method == "POST":
-        form = EditProfileForm(request.POST, request.FILES, instance=request.user.profile)
-        if form.is_valid():
-            profile.image = form.cleaned_data.get('image')
-            profile.first_name = form.cleaned_data.get('first_name')
-            profile.last_name = form.cleaned_data.get('last_name')
-            profile.location = form.cleaned_data.get('location')
-            profile.url = form.cleaned_data.get('url')
-            profile.bio = form.cleaned_data.get('bio')
-            profile.save()
-            return redirect('profile', profile.user.username)
+        pass
     else:
-        form = EditProfileForm(instance=request.user.profile)
+        pass
 
-    context = {
-        'form': form,
-    }
-    return render(request, 'editprofile.html', context)
+    return HttpResponse(response)
 
 
 def follow(request, username, option):
@@ -103,50 +195,3 @@ def follow(request, username, option):
 
     except User.DoesNotExist:
         return HttpResponseRedirect(reverse('profile', args=[username]))
-
-
-@csrf_exempt
-def register(request):
-    response = ''
-    model = Profile()
-    if request.method == "POST":
-        send = {
-            'label': 'This POST was successful.'
-        }
-        response = json.dumps(send)
-    else:
-        send = {
-            'label': 'This GET was successful.'
-        }
-        response = json.dumps(send)
-
-    return HttpResponse(response)
-
-
-@csrf_exempt
-def upload_passport(request):
-    response = ''
-    if request.method == "POST":
-        # file_name = request.FILES['image1'].name
-        model = Profile()
-        model.id_document = request.FILES['image1']
-        model.save()
-        state = Profile.objects.last()
-        full_path = state.id_document.file.name
-        file_name = os.path.basename(full_path)
-
-        BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
-        id_docs = get_files(f'{BASE_DIR}\\media\\id_documents')
-        container = env.get('USER_ID_CONTAINER')
-        blob_files = container_files(container)
-
-        status = upload(container, id_docs, blob_files)
-        if status:
-            if file_name not in blob_files:
-                file_url = file_urls(file_name, container)
-                send = analyse_ID(file_url)
-                response = json.dumps(send)
-        else:
-            response = 'Upload failed.'
-
-    return HttpResponse(response)

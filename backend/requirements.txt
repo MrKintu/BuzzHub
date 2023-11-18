@@ -2,7 +2,7 @@ azure-ai-formrecognizer
 azure-identity
 azure-storage-blob
 dj-database-url
-Django~=5.0b1
+Django
 django-allauth
 django-appconf
 django-bootstrap4

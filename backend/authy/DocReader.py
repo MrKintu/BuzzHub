@@ -54,7 +54,7 @@ def analyse_ID(fileURL):
         address = id_document.fields.get("Address")
         address_ = ''
         if address:
-            address_ = address.value
+            address_ = str(address.value)
 
         country_region = id_document.fields.get("CountryRegion")
         country = ''
@@ -67,18 +67,14 @@ def analyse_ID(fileURL):
             region_ = str(region.value)
 
         send = {
-            'First_Name': f_name,
-            'Last_Name': l_name,
-            'Document_Number': doc_num,
+            'first_name': f_name,
+            'last_name': l_name,
+            'document_number': doc_num,
             'DOB': d_o_b,
             'DOE': d_o_e,
-            'Sex': sex_,
-            'Address': address_,
-            'Country': country,
-            'Region': region_
+            'sex': sex_,
+            'address': address_,
+            'country': country,
+            'region': region_
         }
         return send
-
-
-# fileURL = 'https://cs210032002b1ac1664.blob.core.windows.net/user-ids/Kintu-Declan-Trevor-Front.png'
-# print(analyse_ID(fileURL))

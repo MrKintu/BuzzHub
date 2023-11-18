@@ -4,6 +4,7 @@ from datetime import datetime, timedelta, timezone
 from azure.storage.blob import (BlobServiceClient, BlobSasPermissions,
                                 ContainerClient, generate_blob_sas)
 from dotenv import load_dotenv
+from authy.models import Profile
 
 load_dotenv()
 env = os.environ
@@ -63,7 +64,3 @@ def upload(container, files, blob_files):
                 sent = True
 
     return sent
-
-
-# config = load_config()
-# profile = get_files(config["source_folder"] + "\\profile_picture")
