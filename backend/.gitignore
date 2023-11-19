@@ -6,3 +6,5 @@
 __pycache__/
 media/
 logs/
+static/
+staticfiles/
