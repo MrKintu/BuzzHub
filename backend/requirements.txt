@@ -13,7 +13,6 @@ django-crispy-forms
 django-debug-toolbar
 django-filter
 django-formset-js-improved
-django-heroku
 django-static-fontawesome
 django-storages
 gunicorn
