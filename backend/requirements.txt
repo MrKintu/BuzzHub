@@ -24,4 +24,3 @@ hpack
 hstspreload
 whitenoise
 psycopg2-binary
-psycopg2
