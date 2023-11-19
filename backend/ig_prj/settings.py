@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    # 'django.contrib.staticfiles',
+    'django.contrib.staticfiles',
     'django.contrib.humanize',
 
     # own
@@ -180,11 +180,10 @@ USE_I18N = True
 USE_L10N = True
 
 STATIC_URL = '/static/'
-
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
-
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 USE_TZ = True
@@ -205,12 +204,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 APPEND_SLASH = False
 
-# CSRF SETTINGS
-CSRF_TRUSTED_ORIGINS = [
-    'http://127.0.0.1',
-    'http://localhost'
-]
-
 # CSRF COOKIE SETTINGS
 CSRF_COOKIE_DOMAIN = ''
 CSRF_COOKIE_HTTPONLY = False
@@ -218,6 +211,10 @@ CSRF_COOKIE_MASKED = False
 CSRF_COOKIE_PATH = '/cookies/'
 CSRF_COOKIE_SAMESITE = 'Lax'
 CSRF_COOKIE_SECURE = False
+CSRF_TRUSTED_ORIGINS = [
+    'http://127.0.0.1',
+    'http://localhost'
+]
 
 # CSRF SESSIONS SETTINGS
 # CSRF_USE_SESSIONS = True
