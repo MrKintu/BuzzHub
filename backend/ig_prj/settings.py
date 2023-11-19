@@ -32,7 +32,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     '127.0.0.1',
-    'localhost'
+    'localhost',
+    '20.121.118.165',
 ]
 
 # Application definition
@@ -94,11 +95,11 @@ WSGI_APPLICATION = 'ig_prj.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': env.get('DB_NAME'),
-        'USER': env.get('DB_USER'),
-        'PASSWORD': env.get('DB_PASS'),
-        'HOST': env.get('DB_HOST'),
-        'PORT': env.get('DB_PORT'),
+        'NAME': env.get('AZDB_NAME'),
+        'USER': env.get('AZDB_USER'),
+        'PASSWORD': env.get('AZDB_PASS'),
+        'HOST': env.get('AZDB_HOST'),
+        'PORT': env.get('AZDB_PORT'),
     }
 }
 
