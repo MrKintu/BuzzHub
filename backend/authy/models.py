@@ -20,7 +20,7 @@ def rename_id(instance, filename):
                            for i in range(5))
     filename = '{}{}.{}'.format(rand_strings, uuid4().hex, ext)
     BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
-    home = f'{BASE_DIR}\\media\\id_documents'
+    home = f'{BASE_DIR}/media/id_documents'
     return os.path.join(home, filename)
 
 
