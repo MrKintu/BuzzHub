@@ -8,8 +8,7 @@ from PIL import Image
 # import Image
 from django.contrib.auth.models import User
 from django.db import models
-from django.core.files.temp import NamedTemporaryFile
-from django.core import files
+from django.core.files.storage import FileSystemStorage
 
 from post.models import Post
 
@@ -21,27 +20,12 @@ def rename_id(instance, filename):
                            for i in range(5))
     new_name = '{}{}.{}'.format(rand_strings, uuid4().hex, ext)
 
-    # BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
-    # home = f'{BASE_DIR}\\media\\id_documents'
-    # new_file = os.path.join(home, new_name)
+    BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
+    home = f'{BASE_DIR}/media/id_documents'
+    new_path = FileSystemStorage(location=home)
+    # new_path = os.path.join(home, new_name)
 
-    image_temp_file = NamedTemporaryFile(delete=True)
-    in_memory_image = open(filename, 'rb')
-
-    # Write the in-memory file to the temporary file
-    # Read the streamed image in sections
-    for block in in_memory_image.read(1024 * 8):
-
-        # If no more file then stop
-        if not block:
-            break  # Write image block to temporary file
-        image_temp_file.write(block)
-
-    file_name = new_name  # Choose a unique name for the file
-    image_temp_file.flush()
-    new_file = files.File(image_temp_file, name=file_name)
-
-    return new_file
+    return new_path
 
 
 class Profile(models.Model):
