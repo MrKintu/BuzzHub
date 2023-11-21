@@ -17,7 +17,7 @@ from dotenv import load_dotenv
 from authy.models import Profile
 from post.models import Post, Follow, Stream
 from .BlobHandler import get_files, upload, container_files, file_urls
-from .DocReader import analyse_ID
+from .FileHandler import rename_id, analyse_ID
 
 load_dotenv()
 env = os.environ
@@ -28,21 +28,10 @@ def upload_passport(request):
     response = ''
     if request.method == "POST":
         oldfile = request.FILES['image1']
-
-        # oldname = oldfile.name
-        # image_temp_file = NamedTemporaryFile(delete=True)
-        # in_memory_image = open(oldfile, 'rb')
-        # for block in in_memory_image.read(1024 * 8):
-        #     # If no more file then stop
-        #     if not block:
-        #         break  # Write image block to temporary file
-        #     image_temp_file.write(block)
-        # image_temp_file.flush()
-        # temp_file = files.File(image_temp_file, name=oldname)
+        newfile = rename_id(request, oldfile)
 
         model = Profile()
-        model.id_document = oldfile
-        # model.id_document = temp_file
+        model.id_document = newfile
         model.save()
         state = Profile.objects.last()
         full_path = state.id_document.file.name
@@ -50,7 +39,6 @@ def upload_passport(request):
 
         BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
         id_docs = get_files(f'{BASE_DIR}/media/id_documents')
-        # id_docs = get_files('/var/www/buzzhub/media/id_documents')
         container = env.get('USER_ID_CONTAINER')
         blob_files = container_files(container)
 

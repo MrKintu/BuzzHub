@@ -1,4 +1,8 @@
 import os
+import string
+from pathlib import Path
+import random
+from uuid import uuid4
 from dotenv import load_dotenv
 from azure.ai.formrecognizer import DocumentAnalysisClient
 from azure.core.credentials import AzureKeyCredential
@@ -8,6 +12,20 @@ env = os.environ
 
 key = env.get('DOC_AI_KEY')
 endpoint = env.get('DOC_AI_ENDPOINT')
+
+
+def rename_id(instance, filename):
+    ext = filename.split('.')[-1]
+    rand_strings = ''.join(random.choice(string.ascii_lowercase + string.digits
+                                         + string.ascii_uppercase)
+                           for i in range(5))
+    new_name = '{}{}.{}'.format(rand_strings, uuid4().hex, ext)
+
+    BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
+    home = f'{BASE_DIR}/media/id_documents'
+    new_path = os.path.join(home, new_name)
+
+    return new_path
 
 
 def analyse_ID(fileURL):
