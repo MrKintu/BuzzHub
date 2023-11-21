@@ -22,8 +22,8 @@ def rename_id(instance, filename):
 
     BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
     home = f'{BASE_DIR}/media/id_documents'
-    new_path = FileSystemStorage(location=home)
-    # new_path = os.path.join(home, new_name)
+    # new_path = FileSystemStorage(location=home)
+    new_path = os.path.join(home, new_name)
 
     return new_path
 
