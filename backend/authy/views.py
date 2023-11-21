@@ -28,21 +28,21 @@ def upload_passport(request):
     response = ''
     if request.method == "POST":
         oldfile = request.FILES['image1']
-        oldname = oldfile.name
 
-        image_temp_file = NamedTemporaryFile(delete=True)
-        in_memory_image = open(oldfile, 'rb')
-        for block in in_memory_image.read(1024 * 8):
-            # If no more file then stop
-            if not block:
-                break  # Write image block to temporary file
-            image_temp_file.write(block)
-        image_temp_file.flush()
-        temp_file = files.File(image_temp_file, name=oldname)
+        # oldname = oldfile.name
+        # image_temp_file = NamedTemporaryFile(delete=True)
+        # in_memory_image = open(oldfile, 'rb')
+        # for block in in_memory_image.read(1024 * 8):
+        #     # If no more file then stop
+        #     if not block:
+        #         break  # Write image block to temporary file
+        #     image_temp_file.write(block)
+        # image_temp_file.flush()
+        # temp_file = files.File(image_temp_file, name=oldname)
 
         model = Profile()
-        # model.id_document = oldfile
-        model.id_document = temp_file
+        model.id_document = oldfile
+        # model.id_document = temp_file
         model.save()
         state = Profile.objects.last()
         full_path = state.id_document.file.name
