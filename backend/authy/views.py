@@ -17,7 +17,7 @@ from dotenv import load_dotenv
 from authy.models import Profile
 from post.models import Post, Follow, Stream
 from .BlobHandler import get_files, upload, container_files, file_urls
-from .FileHandler import rename_id, analyse_ID
+from .FileHandler import analyse_ID
 
 load_dotenv()
 env = os.environ
@@ -27,11 +27,8 @@ env = os.environ
 def upload_passport(request):
     response = ''
     if request.method == "POST":
-        oldfile = request.FILES['image1']
-        newfile = rename_id(request, oldfile.name)
-
         model = Profile()
-        model.id_document = newfile
+        model.id_document = request.FILES['image1']
         model.save()
         state = Profile.objects.last()
         full_path = state.id_document.file.name
