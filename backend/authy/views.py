@@ -28,7 +28,7 @@ def upload_passport(request):
     response = ''
     if request.method == "POST":
         oldfile = request.FILES['image1']
-        newfile = rename_id(request, oldfile)
+        newfile = rename_id(request, oldfile.name)
 
         model = Profile()
         model.id_document = newfile
