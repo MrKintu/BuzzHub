@@ -31,7 +31,7 @@ def upload_passport(request):
         oldname = oldfile.name
 
         image_temp_file = NamedTemporaryFile(delete=True)
-        in_memory_image = open('/path/to/file', 'rb')
+        in_memory_image = open(oldfile, 'rb')
         for block in in_memory_image.read(1024 * 8):
             # If no more file then stop
             if not block:
