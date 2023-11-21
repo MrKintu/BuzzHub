@@ -7,6 +7,8 @@ from django.core.paginator import Paginator
 from django.db import transaction
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
+from django.core.files.temp import NamedTemporaryFile
+from django.core import files
 from django.urls import resolve
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
@@ -25,15 +27,29 @@ env = os.environ
 def upload_passport(request):
     response = ''
     if request.method == "POST":
+        oldfile = request.FILES['image1']
+        oldname = oldfile.name
+
+        image_temp_file = NamedTemporaryFile(delete=True)
+        in_memory_image = open('/path/to/file', 'rb')
+        for block in in_memory_image.read(1024 * 8):
+            # If no more file then stop
+            if not block:
+                break  # Write image block to temporary file
+            image_temp_file.write(block)
+        image_temp_file.flush()
+        temp_file = files.File(image_temp_file, name=oldname)
+
         model = Profile()
-        model.id_document = request.FILES['image1']
+        # model.id_document = oldfile
+        model.id_document = temp_file
         model.save()
         state = Profile.objects.last()
         full_path = state.id_document.file.name
         file_name = os.path.basename(full_path)
 
         BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
-        id_docs = get_files(f'{BASE_DIR}\\media\\id_documents')
+        id_docs = get_files(f'{BASE_DIR}/media/id_documents')
         container = env.get('USER_ID_CONTAINER')
         blob_files = container_files(container)
 

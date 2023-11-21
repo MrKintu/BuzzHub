@@ -9,3 +9,5 @@ https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blob-upload-python
 https://learn.microsoft.com/en-us/azure/storage/blobs/storage-quickstart-blobs-python?tabs=managed-identity%2Croles-azure-portal%2Csign-in-visual-studio-code
 
 https://www.digitalocean.com/community/tutorials/how-to-serve-django-applications-with-uwsgi-and-nginx-on-ubuntu-16-04
+
+https://stackoverflow.com/questions/69745412/django-and-suspiciousfileoperationdetected-path-traversal-attempt
