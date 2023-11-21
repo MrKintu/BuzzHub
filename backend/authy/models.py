@@ -21,7 +21,8 @@ def rename_id(instance, filename):
     new_name = '{}{}.{}'.format(rand_strings, uuid4().hex, ext)
 
     BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
-    home = f'{BASE_DIR}/media/id_documents'
+    # home = f'{BASE_DIR}/media/id_documents'
+    home = '/var/www/buzzhub/media/id_documents'
     # new_path = FileSystemStorage(location=home)
     new_path = os.path.join(home, new_name)
 
