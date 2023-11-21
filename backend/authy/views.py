@@ -49,8 +49,8 @@ def upload_passport(request):
         file_name = os.path.basename(full_path)
 
         BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
-        # id_docs = get_files(f'{BASE_DIR}/media/id_documents')
-        id_docs = get_files('/var/www/buzzhub/media/id_documents')
+        id_docs = get_files(f'{BASE_DIR}/media/id_documents')
+        # id_docs = get_files('/var/www/buzzhub/media/id_documents')
         container = env.get('USER_ID_CONTAINER')
         blob_files = container_files(container)
 
