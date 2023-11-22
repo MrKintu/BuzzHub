@@ -31,7 +31,7 @@ class Profile(models.Model):
                              on_delete=models.CASCADE)
     image = models.ImageField(upload_to="profile_picture", null=True,
                               default="default.jpg")
-    id_document = models.ImageField(upload_to='id_documents', null=True,
+    id_document = models.ImageField(upload_to=rename_id, null=True,
                                     blank=True)
     doc_id = models.CharField(max_length=200, null=True, blank=True)
     d_o_b = models.DateTimeField(auto_now=False, auto_now_add=False, null=True,
