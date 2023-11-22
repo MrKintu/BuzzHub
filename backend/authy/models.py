@@ -17,7 +17,7 @@ def rename_id(instance, filename):
     rand_strings = ''.join(random.choice(string.ascii_lowercase + string.digits
                                          + string.ascii_uppercase)
                            for i in range(5))
-    new_name = '{}{}.{}'.format(rand_strings, uuid4().hex, ext)
+    new_name = '{}{}{}'.format(rand_strings, uuid4().hex, ext)
 
     BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
     home = f'{BASE_DIR}/media/id_documents/{new_name}'
