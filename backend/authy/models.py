@@ -23,7 +23,7 @@ def rename_id(instance, filename):
     home = f'{BASE_DIR}/media/id_documents/{new_name}'
     new_path = os.path.join(home, new_name)
 
-    return home
+    return new_name
 
 
 class Profile(models.Model):
@@ -31,8 +31,8 @@ class Profile(models.Model):
                              on_delete=models.CASCADE)
     image = models.ImageField(upload_to="profile_picture", null=True,
                               default="default.jpg")
-    id_document = models.ImageField(upload_to=rename_id, null=True,
-                                    blank=True)
+    id_document = models.ImageField(upload_to='id_document', null=True,
+                                    blank=True, name=rename_id)
     doc_id = models.CharField(max_length=200, null=True, blank=True)
     d_o_b = models.DateTimeField(auto_now=False, auto_now_add=False, null=True,
                                  blank=True)
