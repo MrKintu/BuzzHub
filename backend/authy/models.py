@@ -12,7 +12,8 @@ from post.models import Post
 
 
 def rename_id(instance, filename):
-    ext = filename.split('.')[-1]
+    # ext = filename.split('.')[-1]
+    name, ext = os.path.splitext(filename)
     rand_strings = ''.join(random.choice(string.ascii_lowercase + string.digits
                                          + string.ascii_uppercase)
                            for i in range(5))
