@@ -12,8 +12,7 @@ from post.models import Post
 
 
 def rename_id(instance, filename):
-    # ext = filename.split('.')[-1]
-    name, ext = os.path.splitext(filename)
+    ext = filename.split('.')[-1]
     rand_strings = ''.join(random.choice(string.ascii_lowercase + string.digits
                                          + string.ascii_uppercase)
                            for i in range(5))
@@ -23,7 +22,7 @@ def rename_id(instance, filename):
     home = f'{BASE_DIR}/media/id_documents/{new_name}'
     new_path = os.path.join(home, new_name)
 
-    return new_name
+    return new_path
 
 
 class Profile(models.Model):
@@ -32,7 +31,7 @@ class Profile(models.Model):
     image = models.ImageField(upload_to="profile_picture", null=True,
                               default="default.jpg")
     id_document = models.ImageField(upload_to='id_document', null=True,
-                                    blank=True, name=rename_id)
+                                    blank=True)
     doc_id = models.CharField(max_length=200, null=True, blank=True)
     d_o_b = models.DateTimeField(auto_now=False, auto_now_add=False, null=True,
                                  blank=True)
