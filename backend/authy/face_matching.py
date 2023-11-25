@@ -6,6 +6,7 @@ import csv
 import numpy as np
 from PIL import Image
 import pandas as pd
+from pathlib import Path
 
 window = tk.Tk()
 window.title("Face_Recogniser")
@@ -73,7 +74,9 @@ def TakeImages():
         # as 1 inside the parenthesis
         cam = cv2.VideoCapture(0)
         # Specifying the path to haarcascade file
-        harcascadePath = "FaceData\\haarcascade_frontalface_default.xml"
+        BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
+        harcascadePath = (f'{BASE_DIR}\\authy\\FaceData\\'
+                          f'haarcascade_frontalface_default.xml')
         # Creating the classier based on the haarcascade file.
         detector = cv2.CascadeClassifier(harcascadePath)
         # Initializing the sample number(No. of images) as 0
@@ -100,8 +103,8 @@ def TakeImages():
                 # saving the captured face in the dataset folder
                 # TrainingImage as the image needs to be trained
                 # are saved in this folder
-                cv2.imwrite("TrainingImage\ " + name + "." + Id + '.' + str(sampleNum)
-                            + ".jpg", gray[y:y + h, x:x + w])
+                cv2.imwrite("TrainingImage\ " + name + "." + Id + '.'
+                            + str(sampleNum) + ".jpg", gray[y:y + h, x:x + w])
                 # display the frame that has been captured
                 # and drawn rectangle around it.
                 cv2.imshow('frame', img)
@@ -142,7 +145,9 @@ def TrainImages():
     # algorithm inside OpenCV module used for training the image dataset
     recognizer = cv2.face.LBPHFaceRecognizer_create()
     # Specifying the path for HaarCascade file
-    harcascadePath = "FaceData\\haarcascade_frontalface_default.xml"
+    BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
+    harcascadePath = (f'{BASE_DIR}\\authy\\FaceData\\'
+                      f'haarcascade_frontalface_default.xml')
     # creating detector for faces
     detector = cv2.CascadeClassifier(harcascadePath)
     # Saving the detected faces in variables
@@ -183,11 +188,15 @@ def getImagesAndLabels(path):
 def TrackImages():
     recognizer = cv2.face.LBPHFaceRecognizer_create()
     # Reading the trained model
-    recognizer.read("FaceData\\Trainer.yml")
-    harcascadePath = "FaceData\\haarcascade_frontalface_default.xml"
+    BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
+    trainer = f'{BASE_DIR}\\authy\\FaceData\\Trainer.yml'
+    recognizer.read(trainer)
+    harcascadePath = (f'{BASE_DIR}\\authy\\FaceData\\'
+                      f'haarcascade_frontalface_default.xml')
     faceCascade = cv2.CascadeClassifier(harcascadePath)
     # getting the name from "userdetails.csv"
-    df = pd.read_csv("FaceData/UserDetails.csv")
+    user_details = f'{BASE_DIR}\\authy\\FaceData\\UserDetails.csv'
+    df = pd.read_csv(user_details)
     print(df)
     cam = cv2.VideoCapture(0)
     font = cv2.FONT_HERSHEY_SIMPLEX
@@ -206,9 +215,11 @@ def TrackImages():
                 Id = 'Unknown'
                 tt = str(Id)
             if conf > 75:
-                noOfFile = len(os.listdir("ImagesUnknown")) + 1
-                cv2.imwrite("ImagesUnknown\\Image" +
-                            str(noOfFile) + ".jpg", im[y:y + h, x:x + w])
+                BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
+                i_unkown = f'{BASE_DIR}\\authy\\ImagesUnknown\\'
+                noOfFile = len(os.listdir(i_unkown)) + 1
+                cv2.imwrite(i_unkown + "\\Image" + str(noOfFile)
+                            + ".jpg", im[y:y + h, x:x + w])
             cv2.putText(im, str(tt), (x, y + h),
                         font, 1, (255, 255, 255), 2)
         cv2.imshow('im', im)
