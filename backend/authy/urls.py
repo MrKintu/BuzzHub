@@ -1,10 +1,10 @@
 from django.urls import path
-from authy.views import (EditProfile, register, upload_passport, login_view,
+from authy.views import (EditProfile, register, upload_ID, login_view,
                          logout_view, change_password)
 
 urlpatterns = [
     # Profile Section
-    path('passport/', upload_passport, name="passport"),
+    path('upload-ID/', upload_ID, name="upload-ID"),
     path('edit-profile/', EditProfile, name="edit-profile"),
 
     # User Authentication
