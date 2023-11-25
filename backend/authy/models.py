@@ -1,8 +1,37 @@
 import os
+import random
+import string
+from pathlib import Path
+from uuid import uuid4
+
 from django.contrib.auth.models import User
 from django.db import models
 
 from post.models import Post
+
+
+def rename_id(instance, filename):
+    ext = filename.split('.')[-1]
+    rand_strings = ''.join(random.choice(string.ascii_lowercase + string.digits
+                                         + string.ascii_uppercase)
+                           for i in range(5))
+    newname = '{}{}.{}'.format(rand_strings, uuid4().hex, ext)
+    BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
+    new_path = f'{BASE_DIR}/media/id_documents/{newname}'
+
+    return new_path
+
+
+def rename_image(instance, filename):
+    ext = filename.split('.')[-1]
+    rand_strings = ''.join(random.choice(string.ascii_lowercase + string.digits
+                                         + string.ascii_uppercase)
+                           for i in range(5))
+    newname = '{}{}.{}'.format(rand_strings, uuid4().hex, ext)
+    BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
+    new_path = f'{BASE_DIR}/media/profile_pictures/{newname}'
+
+    return new_path
 
 
 class Profile(models.Model):
