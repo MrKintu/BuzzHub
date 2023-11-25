@@ -122,7 +122,7 @@ def PDFtoImage(pdfPath):
                                    for i in range(5))
             file_name = f"{rand_strings}{uuid4().hex}.{image_ext}"
             BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
-            path = f'{BASE_DIR}\\media\\pdf_images\\{file_name}'
+            path = f'{BASE_DIR}/media/pdf_images/{file_name}'
             image.save(open(path, "wb"))
 
     return path

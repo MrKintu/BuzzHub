@@ -53,7 +53,7 @@ def upload_ID(request):
         profile.save()
 
         BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
-        id_docs = get_files(f'{BASE_DIR}\\media\\id_documents')
+        id_docs = get_files(f'{BASE_DIR}/media/id_documents')
         container = env.get('USER_ID_CONTAINER')
         blob_files = container_files(container)
 

@@ -17,7 +17,7 @@ def rename_id(instance, filename):
                            for i in range(5))
     newname = '{}{}.{}'.format(rand_strings, uuid4().hex, ext)
     BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
-    new_path = f'{BASE_DIR}\\media\\id_documents\\{newname}'
+    new_path = f'{BASE_DIR}/media/id_documents/{newname}'
 
     return new_path
 
@@ -29,7 +29,7 @@ def rename_image(instance, filename):
                            for i in range(5))
     newname = '{}{}.{}'.format(rand_strings, uuid4().hex, ext)
     BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
-    new_path = f'{BASE_DIR}\\media\\profile_pictures\\{newname}'
+    new_path = f'{BASE_DIR}/media/profile_pictures/{newname}'
 
     return new_path
 

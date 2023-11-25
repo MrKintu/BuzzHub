@@ -39,7 +39,7 @@ def detect_face(imgPath):
                            for i in range(5))
     file_name = f"{rand_strings}{uuid4().hex}.jpg"
     BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
-    path = f'{BASE_DIR}\\media\\faces\\{file_name}'
+    path = f'{BASE_DIR}/media/faces/{file_name}'
     photo.save(path)
 
     return path
