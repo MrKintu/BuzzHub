@@ -8,3 +8,5 @@ media/
 logs/
 static/
 staticfiles/
+authy/ImagesUnknown/
+authy/TrainingImage/

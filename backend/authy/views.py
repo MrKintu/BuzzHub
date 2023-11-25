@@ -1,14 +1,13 @@
 import json
 import os
 from pathlib import Path
+
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.db import transaction
 from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render, redirect, get_object_or_404
-from django.core.files.temp import NamedTemporaryFile
-from django.core import files
+from django.shortcuts import render, get_object_or_404
 from django.urls import resolve
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
@@ -17,25 +16,44 @@ from dotenv import load_dotenv
 from authy.models import Profile
 from post.models import Post, Follow, Stream
 from .BlobHandler import get_files, upload, container_files, file_urls
-from .FileHandler import analyse_ID
+from .DocHandler import analyse_ID, PDFtoImage
+from .FaceHandler import detect_face
 
 load_dotenv()
 env = os.environ
 
 
 @csrf_exempt
-def upload_passport(request):
+def upload_ID(request):
     response = ''
     if request.method == "POST":
+        newFile = request.FILES['NewFile']
+        ext1 = newFile.name.split('.')[-1]
+        good_ext = ['pdf', 'png', 'jpg', 'jpeg']
+        if ext1 not in good_ext:
+            response = ('Upload failed. Please upload in pdf, png, jpg or jpeg '
+                        'format.')
+
         model = Profile()
-        model.id_document = request.FILES['image1']
+        model.id_document = newFile
         model.save()
         state = Profile.objects.last()
         full_path = state.id_document.file.name
         file_name = os.path.basename(full_path)
 
+        ext2 = file_name.split('.')[-1]
+        profile = Profile.objects.get(pk=state.pk)
+        if ext2 == 'pdf':
+            imgPath = PDFtoImage(full_path)
+            facePath = detect_face(imgPath)
+            profile.image = facePath
+        else:
+            facePath = detect_face(full_path)
+            profile.image = facePath
+        profile.save()
+
         BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
-        id_docs = get_files(f'{BASE_DIR}/media/id_documents')
+        id_docs = get_files(f'{BASE_DIR}\\media\\id_documents')
         container = env.get('USER_ID_CONTAINER')
         blob_files = container_files(container)
 

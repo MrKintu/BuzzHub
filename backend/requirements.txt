@@ -24,3 +24,15 @@ hpack
 hstspreload
 whitenoise
 psycopg2-binary
+opencv-contrib-python
+tensorflow[and-cuda]
+torch
+torchvision
+torchaudio
+transformers
+tk
+numpy
+pandas
+opencv-python
+PyMuPDF
+cloud-tpu-client
