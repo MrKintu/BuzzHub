@@ -5,7 +5,6 @@ from pathlib import Path
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.core.paginator import Paginator
 from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
@@ -232,7 +231,8 @@ def UserProfile(request, username):
     following_count = Follow.objects.filter(follower=user).count()
     followers_count = Follow.objects.filter(following=user).count()
     # count_comment = Comment.objects.filter(post=posts).count()
-    follow_status = Follow.objects.filter(following=user, follower=request.user).exists()
+    follow_status = (Follow.objects.filter(following=user, follower=request.user)
+                     .exists())
 
     context = {
         'posts': posts_list,

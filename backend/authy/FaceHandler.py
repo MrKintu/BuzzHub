@@ -62,7 +62,7 @@ def TakeImages(name):
         cam = cv2.VideoCapture(0)
         # Specifying the path to haarcascade file
         BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
-        harcascadePath = (f'{BASE_DIR}\\authy\\FaceData\\'
+        harcascadePath = (f'{BASE_DIR}/authy/FaceData/'
                           f'haarcascade_frontalface_default.xml')
         # Creating the classier based on the haarcascade file.
         detector = cv2.CascadeClassifier(harcascadePath)
@@ -90,7 +90,7 @@ def TakeImages(name):
                 # saving the captured face in the dataset folder
                 # TrainingImage as the image needs to be trained
                 # are saved in this folder
-                TrainingImagePath = f'{BASE_DIR}\\authy\\TrainingImage\\'
+                TrainingImagePath = f'{BASE_DIR}/authy/TrainingImage/'
                 cv2.imwrite(TrainingImagePath + name + "." + Id + '.'
                             + str(sampleNum) + ".jpg", gray[y:y + h, x:x + w])
                 # display the frame that has been captured
@@ -110,7 +110,7 @@ def TakeImages(name):
         res = "Images Saved for ID : " + Id + " Name : " + name
         # Creating the entry for the user in a csv file
         row = [Id, name]
-        UserDetailsPath = rf'{BASE_DIR}\\authy\\FaceData\\UserDetails.csv'
+        UserDetailsPath = rf'{BASE_DIR}/authy/FaceData/UserDetails.csv'
         with open(UserDetailsPath, 'a+') as csvFile:
             writer = csv.writer(csvFile)
             # Entry of the row in csv file
@@ -150,17 +150,17 @@ def TrainImages():
     recognizer = cv2.face.LBPHFaceRecognizer_create()
     # Specifying the path for HaarCascade file
     BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
-    harcascadePath = (f'{BASE_DIR}\\authy\\FaceData\\'
+    harcascadePath = (f'{BASE_DIR}/authy/FaceData/'
                       f'haarcascade_frontalface_default.xml')
     # creating detector for faces
     detector = cv2.CascadeClassifier(harcascadePath)
     # Saving the detected faces in variables
-    TrainingImagePath = f'{BASE_DIR}\\authy\\TrainingImage\\'
+    TrainingImagePath = f'{BASE_DIR}/authy/TrainingImage/'
     faces, Id = getImagesAndLabels(TrainingImagePath)
     # Saving the trained faces and their respective ID's
     # in a model named as "Trainer.yml".
     recognizer.train(faces, np.array(Id))
-    TrainerPath = f'{BASE_DIR}\\authy\\FaceData\\Trainer.yml'
+    TrainerPath = f'{BASE_DIR}/authy/FaceData/Trainer.yml'
     recognizer.save(TrainerPath)
 
     return True
@@ -170,13 +170,13 @@ def TrackImages():
     recognizer = cv2.face.LBPHFaceRecognizer_create()
     # Reading the trained model
     BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
-    trainer = f'{BASE_DIR}\\authy\\FaceData\\Trainer.yml'
+    trainer = f'{BASE_DIR}/authy/FaceData/Trainer.yml'
     recognizer.read(trainer)
-    harcascadePath = (f'{BASE_DIR}\\authy\\FaceData\\'
+    harcascadePath = (f'{BASE_DIR}/authy/FaceData/'
                       f'haarcascade_frontalface_default.xml')
     faceCascade = cv2.CascadeClassifier(harcascadePath)
     # getting the name from "userdetails.csv"
-    user_details = f'{BASE_DIR}\\authy\\FaceData\\UserDetails.csv'
+    user_details = f'{BASE_DIR}/authy/FaceData/UserDetails.csv'
     df = pd.read_csv(user_details)
     print(df)
     cam = cv2.VideoCapture(0)
