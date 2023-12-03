@@ -1,11 +1,14 @@
 from django.urls import path
+
 from authy.views import (EditProfile, register, upload_ID, login_view,
-                         logout_view, change_password)
+                         logout_view, change_password, FaceTraining, TrackFace)
 
 urlpatterns = [
-    # Profile Section
+    # Profile
     path('upload-ID/', upload_ID, name="upload-ID"),
     path('edit-profile/', EditProfile, name="edit-profile"),
+    path('train-face/', FaceTraining, name="train-face"),
+    path('track-face/', TrackFace, name="track-face"),
 
     # User Authentication
     path('sign-up/', register, name="sign-up"),
