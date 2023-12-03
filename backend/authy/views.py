@@ -3,13 +3,13 @@ import os
 from pathlib import Path
 
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.db import transaction
-from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
 from django.urls import resolve
-from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from dotenv import load_dotenv
 
@@ -17,7 +17,7 @@ from authy.models import Profile
 from post.models import Post, Follow, Stream
 from .BlobHandler import get_files, upload, container_files, file_urls
 from .DocHandler import analyse_ID, PDFtoImage
-from .FaceHandler import detect_face
+from .FaceHandler import detect_face, TakeImages, TrainImages, TrackImages
 
 load_dotenv()
 env = os.environ
@@ -87,6 +87,7 @@ def register(request):
             last_name=data["last_name"]
         )
         user.save()
+
         user_state = User.objects.get(username=data["username"])
         profile = Profile.objects.filter(
             id_document__endswith=data["file_name"])
@@ -126,9 +127,13 @@ def login_view(request):
 @csrf_exempt
 def logout_view(request):
     logout(request)
+    response = True
+
+    return HttpResponse(response)
 
 
 @csrf_exempt
+@login_required
 def change_password(request):
     response = False
     if request.method == "POST":
@@ -145,17 +150,82 @@ def change_password(request):
     return HttpResponse(response)
 
 
+@csrf_exempt
+@login_required
+def FaceTraining(request):
+    response = False
+    if request.method == "POST":
+        data = request.POST
+        name = data["name"]
+        take_images = TakeImages(name)
+        if take_images:
+            train_images = TrainImages()
+            if train_images:
+                response = True
+
+    return HttpResponse(response)
+
+
+@csrf_exempt
+@login_required
+def TrackFace(request):
+    response = False
+    track_images = TrackImages()
+    if track_images:
+        response = True
+
+    return HttpResponse(response)
+
+
+@csrf_exempt
+@login_required
 def UserProfile(request, username):
-    Profile.objects.get_or_create(user=request.user)
     user = get_object_or_404(User, username=username)
     profile = Profile.objects.get(user=user)
-    url_name = resolve(request.path).url_name
-    posts = Post.objects.filter(user=user).order_by('-posted')
+    favs = profile.favourite.all()
+    fav_list = []
+    for x in range(len(favs)):
+        single = favs[x]
+        send = {
+            'id': single.id,
+            'picture': single.picture,
+            'caption': single.caption,
+            'posted': str(single.posted),
+            'tags': str(single.tags),
+            'user': str(single.user.username),
+            'likes': single.likes
+        }
+        fav_list.append(send)
+    profile_dict = {
+        'user': profile.user.username,
+        'doc_id': profile.doc_id,
+        'd_o_b': str(profile.d_o_b),
+        'd_o_e': str(profile.d_o_e),
+        'bio': profile.bio,
+        'location': profile.location,
+        'country': profile.country,
+        'url': profile.url,
+        'favourites': fav_list
+    }
 
+    url_name = resolve(request.path).url_name
     if url_name == 'profile':
         posts = Post.objects.filter(user=user).order_by('-posted')
     else:
         posts = profile.favourite.all()
+    posts_list = []
+    for x in range(len(posts)):
+        single = posts[x]
+        send = {
+            'id': single.id,
+            'picture': single.picture,
+            'caption': single.caption,
+            'posted': str(single.posted),
+            'tags': str(single.tags),
+            'user': str(single.user),
+            'likes': single.likes
+        }
+        posts_list.append(send)
 
     # Profile Stats
     posts_count = Post.objects.filter(user=user).count()
@@ -164,54 +234,86 @@ def UserProfile(request, username):
     # count_comment = Comment.objects.filter(post=posts).count()
     follow_status = Follow.objects.filter(following=user, follower=request.user).exists()
 
-    # pagination
-    paginator = Paginator(posts, 8)
-    page_number = request.GET.get('page')
-    posts_paginator = paginator.get_page(page_number)
-
     context = {
-        'posts': posts,
-        'profile': profile,
-        'posts_count': posts_count,
-        'following_count': following_count,
-        'followers_count': followers_count,
-        'posts_paginator': posts_paginator,
+        'posts': posts_list,
+        'profile': profile_dict,
+        'posts_count': int(posts_count),
+        'following_count': int(following_count),
+        'followers_count': int(followers_count),
         'follow_status': follow_status,
         # 'count_comment':count_comment,
     }
-    return render(request, 'profile.html', context)
-
-
-def EditProfile(request):
-    user = request.user.id
-    profile = Profile.objects.get(user__id=user)
-    response = ''
-
-    if request.method == "POST":
-        pass
-    else:
-        pass
+    response = json.dumps(context)
 
     return HttpResponse(response)
 
 
+@csrf_exempt
+@login_required
+def EditProfile(request):
+    user = request.user
+
+    if request.method == "POST":
+        data = request.POST
+        user_state = User.objects.get(username=user.username)
+        profile_state = Profile.objects.get(user=user_state)
+
+        user_state.username = data["username"]
+        user_state.email = data["email"]
+        user_state.save()
+
+        profile_state.bio = data["bio"]
+        profile_state.location = data["location"]
+        profile_state.url = data["url"]
+        profile_state.save()
+
+        response = True
+    else:
+        user_state = User.objects.get(username=user.username)
+        profile_state = Profile.objects.get(user=user_state)
+
+        user_profile = {
+            'username': str(user_state.username),
+            'email': str(user_state.email),
+            'first_name': str(user_state.first_name),
+            'last_name': str(user_state.last_name),
+            'd_o_b': str(profile_state.d_o_b),
+            'bio': str(profile_state.bio),
+            'location': str(profile_state.location),
+            'country': str(profile_state.country),
+            'url': str(profile_state.url)
+        }
+        response = json.dumps(user_profile)
+
+    return HttpResponse(response)
+
+
+@csrf_exempt
+@login_required
 def follow(request, username, option):
     user = request.user
     following = get_object_or_404(User, username=username)
 
     try:
-        f, created = Follow.objects.get_or_create(follower=request.user, following=following)
+        f, created = Follow.objects.get_or_create(follower=request.user,
+                                                  following=following)
 
         if int(option) == 0:
             f.delete()
-            Stream.objects.filter(following=following, user=request.user).all().delete()
+            (Stream.objects.filter(following=following, user=request.user).all()
+             .delete())
         else:
             posts = Post.objects.all().filter(user=following)[:25]
             with transaction.atomic():
                 for post in posts:
-                    stream = Stream(post=post, user=request.user, date=post.posted, following=following)
+                    stream = Stream(post=post, user=request.user, date=post.posted,
+                                    following=following)
                     stream.save()
-        return HttpResponseRedirect(reverse('profile', args=[username]))
+        response = True
+
+        return HttpResponse(response)
 
     except User.DoesNotExist:
-        return HttpResponseRedirect(reverse('profile', args=[username]))
+        response = False
+
+        return HttpResponse(response)

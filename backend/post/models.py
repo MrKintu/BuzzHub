@@ -39,7 +39,8 @@ class Tag(models.Model):
 
 class Post(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    picture = models.ImageField(upload_to=user_directory_path, verbose_name="Picture")
+    picture = models.ImageField(upload_to=user_directory_path,
+                                verbose_name="Picture")
     caption = models.CharField(max_length=10000, verbose_name="Caption")
     posted = models.DateField(auto_now_add=True)
     tags = models.ManyToManyField(Tag, related_name="tags")
@@ -55,7 +56,8 @@ class Post(models.Model):
 
 class Likes(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="post_likes")
+    post = models.ForeignKey(Post, on_delete=models.CASCADE,
+                             related_name="post_likes")
 
     def user_liked_post(sender, instance, *args, **kwargs):
         like = instance
@@ -68,13 +70,16 @@ class Likes(models.Model):
         like = instance
         post = like.post
         sender = like.user
-        notify = Notification.objects.filter(post=post, sender=sender, notification_types=1)
+        notify = Notification.objects.filter(post=post, sender=sender,
+                                             notification_types=1)
         notify.delete()
 
 
 class Follow(models.Model):
-    follower = models.ForeignKey(User, on_delete=models.CASCADE, related_name='follower')
-    following = models.ForeignKey(User, on_delete=models.CASCADE, related_name='following')
+    follower = models.ForeignKey(User, on_delete=models.CASCADE,
+                                 related_name='follower')
+    following = models.ForeignKey(User, on_delete=models.CASCADE,
+                                  related_name='following')
 
     def user_follow(sender, instance, *args, **kwargs):
         follow = instance
@@ -87,12 +92,14 @@ class Follow(models.Model):
         follow = instance
         sender = follow.follower
         following = follow.following
-        notify = Notification.objects.filter(sender=sender, user=following, notification_types=3)
+        notify = Notification.objects.filter(sender=sender, user=following,
+                                             notification_types=3)
         notify.delete()
 
 
 class Stream(models.Model):
-    following = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='stream_following')
+    following = models.ForeignKey(User, on_delete=models.CASCADE, null=True,
+                                  related_name='stream_following')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     post = models.ForeignKey(Post, on_delete=models.CASCADE, null=True)
     date = models.DateTimeField()
@@ -103,7 +110,8 @@ class Stream(models.Model):
         followers = Follow.objects.all().filter(following=user)
 
         for follower in followers:
-            stream = Stream(post=post, user=follower.follower, date=post.posted, following=user)
+            stream = Stream(post=post, user=follower.follower, date=post.posted,
+                            following=user)
             stream.save()
 
 
