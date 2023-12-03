@@ -306,8 +306,8 @@ def follow(request, username, option):
             posts = Post.objects.all().filter(user=following)[:25]
             with transaction.atomic():
                 for post in posts:
-                    stream = Stream(post=post, user=request.user, date=post.posted,
-                                    following=following)
+                    stream = Stream(post=post, user=request.user,
+                                    date=post.posted, following=following)
                     stream.save()
         response = True
 

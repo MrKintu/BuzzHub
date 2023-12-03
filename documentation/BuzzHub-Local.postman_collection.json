@@ -1,0 +1,722 @@
+{
+	"info": {
+		"_postman_id": "41aa115c-a11a-43f1-a068-5018f5e74b65",
+		"name": "BuzzHub-Local",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8615331"
+	},
+	"item": [
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "upload-ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "Name",
+									"value": "Sample Name",
+									"type": "text"
+								},
+								{
+									"key": "NewFile",
+									"type": "file",
+									"src": "/G:/My Drive/Important Details/Personal/Old Passport.pdf"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{localhost}}/users/upload-ID/",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"users",
+								"upload-ID",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "sign-up",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file_name",
+									"value": "JbbtJec55c669ee9e46afb5878cd65bf5c295.pdf",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "mr_kintu",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "12345",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "someone@email.com",
+									"type": "text"
+								},
+								{
+									"key": "first_name",
+									"value": "Declan",
+									"type": "text"
+								},
+								{
+									"key": "last_name",
+									"value": "Trevor",
+									"type": "text"
+								},
+								{
+									"key": "doc_id",
+									"value": "123456789",
+									"type": "text"
+								},
+								{
+									"key": "dob",
+									"value": "1996-04-13",
+									"type": "text"
+								},
+								{
+									"key": "doe",
+									"value": "2025-12-31",
+									"type": "text"
+								},
+								{
+									"key": "bio",
+									"value": "Something about me",
+									"type": "text"
+								},
+								{
+									"key": "location",
+									"value": "Oshawa",
+									"type": "text"
+								},
+								{
+									"key": "country",
+									"value": "Uganda",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{localhost}}/users/sign-up/",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"users",
+								"sign-up",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "sign-out",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{localhost}}/users/sign-out/",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"users",
+								"sign-out",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "sign-in",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "username",
+									"value": "mr_kintu",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "12345",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{localhost}}/users/sign-in/",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"users",
+								"sign-in",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "train-face",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Declan",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{localhost}}/users/train-face/",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"users",
+								"train-face",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "track-face",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{localhost}}/users/track-face/",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"users",
+								"track-face",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "edit-profile",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{localhost}}/users/edit-profile/",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"users",
+								"edit-profile",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "edit-profile",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "username",
+									"value": "trxvxmxn",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "trxvxmxn@email.com",
+									"type": "text"
+								},
+								{
+									"key": "bio",
+									"value": "My cool new bio",
+									"type": "text"
+								},
+								{
+									"key": "location",
+									"value": "Nairobi",
+									"type": "text"
+								},
+								{
+									"key": "url",
+									"value": "http://my-cool-site.co.ug/",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{localhost}}/users/edit-profile/",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"users",
+								"edit-profile",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "change-password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "new_password",
+									"value": "09876",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{localhost}}/users/change-password/",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"users",
+								"change-password",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "posts",
+			"item": [
+				{
+					"name": "index",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{localhost}}/",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "new-post",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"type": "file",
+									"src": []
+								},
+								{
+									"key": "caption",
+									"value": "Hey, Check this out!",
+									"type": "text"
+								},
+								{
+									"key": "tags",
+									"value": "#NewHere, #UFC, #JiuJitsu, #MuayThai",
+									"type": "text"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "post-details",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{localhost}}/<post_id>",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"<post_id>"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "tags",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{localhost}}/tags/<tag>",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"tags",
+								"<tag>"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "like",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{localhost}}/<post_id>/like",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"<post_id>",
+								"like"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "favourite",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{localhost}}/<post_id>/favourite",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"<post_id>",
+								"favourite"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "messages",
+			"item": [
+				{
+					"name": "inbox",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{localhost}}/messages/",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"messages",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "directs",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{localhost}}/messages/direct/<username>/",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"messages",
+								"direct",
+								"<username>",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "send",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "to_user",
+									"value": "other user",
+									"type": "text"
+								},
+								{
+									"key": "body",
+									"value": "some text.",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{localhost}}/messages/send/",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"messages",
+								"send",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "search",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "query",
+									"value": "Some text",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{localhost}}/messages/search",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"messages",
+								"search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "conversations",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{localhost}}/messages/with/<username>",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"messages",
+								"with",
+								"<username>"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "notifications",
+			"item": [
+				{
+					"name": "show-notification",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{localhost}}/notifications/",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"notifications",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete-notification",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{localhost}}/notifications/<notification_id>/delete",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"notifications",
+								"<notification_id>",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "profile",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{localhost}}/mr_kintu/",
+					"host": [
+						"{{localhost}}"
+					],
+					"path": [
+						"mr_kintu",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "profilefavourite",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{localhost}}/mr_kintu/saved/",
+					"host": [
+						"{{localhost}}"
+					],
+					"path": [
+						"mr_kintu",
+						"saved",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "follow",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{localhost}}/mr_kintu/follow/1/",
+					"host": [
+						"{{localhost}}"
+					],
+					"path": [
+						"mr_kintu",
+						"follow",
+						"1",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
