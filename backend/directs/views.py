@@ -79,7 +79,7 @@ def Directs(request, username):
     active_direct = username
     messages = Message.get_message(user=user)
 
-    directs = Message.objects.filter(user=user, reciepient__username=username)
+    directs = Message.objects.filter(user=user, recipient__username=username)
     directs.update(is_read=True)
     direct_list = []
     message_list = []
@@ -154,20 +154,19 @@ def UserSearch(request):
         context = {}
 
         query = data["query"]
-        if query:
-            users = User.objects.filter(Q(username__icontains=query))
-            user_list = []
-            for x in range(len(users)):
-                single = users[x]
-                send = {
-                    'username': single.username,
-                    'first_name': single.first_name,
-                    'last_name': single.last_name
-                }
-                user_list.append(send)
-            context = {
-                'users': user_list,
+        users = User.objects.filter(Q(username__icontains=query))
+        user_list = []
+        for x in range(len(users)):
+            single = users[x]
+            send = {
+                'username': single.username,
+                'first_name': single.first_name,
+                'last_name': single.last_name
             }
+            user_list.append(send)
+        context = {
+            'users': user_list,
+        }
 
         response = json.dumps(context)
 
