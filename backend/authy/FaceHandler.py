@@ -196,9 +196,9 @@ def TrackImages():
                 Id = 'Unknown'
                 tt = str(Id)
             if conf > 70:
-                Unknown_Path = f'{BASE_DIR}\\authy\\ImagesUnknown\\'
+                Unknown_Path = f'{BASE_DIR}/authy/ImagesUnknown/'
                 noOfFile = len(os.listdir(Unknown_Path)) + 1
-                cv2.imwrite(f"{Unknown_Path}\\Image" +
+                cv2.imwrite(f"{Unknown_Path}/Image" +
                             str(noOfFile) + ".jpg", im[y:y + h, x:x + w])
             cv2.putText(im, str(tt), (x, y + h),
                         font, 1, (255, 255, 255), 2)
