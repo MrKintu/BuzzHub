@@ -16,7 +16,8 @@ def ShowNotification(request):
     for x in range(len(notifications)):
         single = notifications[x]
         send = {
-            'post': single.post.id,
+            'notify_ID': single.pk,
+            'post': str(single.post.id),
             'sender': single.sender.username,
             'user': single.user.username,
             'notification_types': single.notification_types,

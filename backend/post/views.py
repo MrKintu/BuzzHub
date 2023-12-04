@@ -120,8 +120,8 @@ def NewPost(request):
 def PostDetail(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     post_item = {
-        'id': post.id,
-        'picture': post.picture,
+        'id': str(post.id),
+        'picture': post.picture.file.name,
         'caption': post.caption,
         'posted': str(post.posted),
         'tags': str(post.tags),
@@ -134,7 +134,7 @@ def PostDetail(request, post_id):
     for x in range(len(comments)):
         single = comments[x]
         send = {
-            'post': single.post,
+            'post': str(single.post.id),
             'user': single.user.username,
             'body': single.body,
             'date': str(single.date)
