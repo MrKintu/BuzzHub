@@ -32,7 +32,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     '127.0.0.1',
-    'localhost'
+    'localhost',
+    '20.121.118.165',
 ]
 
 # Application definition
@@ -43,7 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    # 'django.contrib.staticfiles',
+    'django.contrib.staticfiles',
     'django.contrib.humanize',
 
     # own
@@ -102,6 +103,61 @@ DATABASES = {
     }
 }
 
+LOGGING = {
+    "version": 1,  # the dictConfig format version
+    "disable_existing_loggers": False,  # retain the default loggers
+    "formatters": {
+        "verbose": {
+            "format": "{name} {levelname} {asctime} {module} {process:d} {thread:d} "
+                      "{message}",
+            "style": "{",
+        },
+        "simple": {
+            "format": "{levelname} {message}",
+            "style": "{",
+        },
+    },
+    "handlers": {
+        "debug_file": {
+            "class": "logging.FileHandler",
+            "filename": "logs/debug.log",
+            "level": "DEBUG",
+            "formatter": "verbose",
+        },
+        "info_file": {
+            "class": "logging.FileHandler",
+            "filename": "logs/info.log",
+            "level": "INFO",
+            "formatter": "verbose",
+        },
+        "warning_file": {
+            "class": "logging.FileHandler",
+            "filename": "logs/warning.log",
+            "level": "WARNING",
+            "formatter": "verbose",
+        },
+        "error_file": {
+            "class": "logging.FileHandler",
+            "filename": "logs/error.log",
+            "level": "ERROR",
+            "formatter": "verbose",
+        },
+        "critical_file": {
+            "class": "logging.FileHandler",
+            "filename": "logs/critical.log",
+            "level": "CRITICAL",
+            "formatter": "verbose",
+        },
+    },
+    "loggers": {
+        "": {
+            "level": "DEBUG",
+            "handlers": ["debug_file", "info_file", "warning_file", "error_file",
+                         "critical_file"],
+        },
+    },
+}
+
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
@@ -132,11 +188,10 @@ USE_I18N = True
 USE_L10N = True
 
 STATIC_URL = '/static/'
-
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
-
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 USE_TZ = True
@@ -157,12 +212,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 APPEND_SLASH = False
 
-# CSRF SETTINGS
-CSRF_TRUSTED_ORIGINS = [
-    'http://127.0.0.1',
-    'http://localhost'
-]
-
 # CSRF COOKIE SETTINGS
 CSRF_COOKIE_DOMAIN = ''
 CSRF_COOKIE_HTTPONLY = False
@@ -170,6 +219,11 @@ CSRF_COOKIE_MASKED = False
 CSRF_COOKIE_PATH = '/cookies/'
 CSRF_COOKIE_SAMESITE = 'Lax'
 CSRF_COOKIE_SECURE = False
+CSRF_TRUSTED_ORIGINS = [
+    'http://127.0.0.1',
+    'http://localhost'
+]
+
 
 # CSRF SESSIONS SETTINGS
 # CSRF_USE_SESSIONS = True
