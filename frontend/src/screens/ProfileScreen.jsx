@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import {
     Text,
     View,
@@ -9,6 +9,9 @@ import {
 } from 'react-native';
 import { AppColor } from "../utils/appColors";
 import { useNavigation } from '@react-navigation/native';
+import { Alert, Modal, Pressable } from 'react-native';
+import { AuthContext } from '../context/AuthContext';
+
 
 
 
@@ -16,21 +19,46 @@ const ProfileScreen = () => {
 
     const navigation = useNavigation();
 
+    const [modalVisible, setModalVisible] = useState(false);
+    const { logout,profile,info } = useContext(AuthContext);
+    
+
+    useEffect( () => {
+    profile();
+      }, []);
+
 
     return (
         <View style={styles.container}>
             <View style={styles.header}>
                 <View style={styles.leftHeaderWrapper}>
-                    <Image
-                        source={require('../assets/images/profilePage/leftArrow.png')}
-                    />
-                    <Text style={styles.headerText}>Catherin</Text>
+                    <TouchableOpacity onPress={() => navigation.goBack()}>
+                        <Image
+                            style={{ height: 30, width: 35 }}
+                            source={require('../assets/images/profilePage/leftArrow.png')}
+                        />
+                    </TouchableOpacity>
+                    <Text style={styles.headerText}>{info?.profile?.user}</Text>
                 </View>
-                <View>
+                <TouchableOpacity style={styles.ButtonItemWrapper} onPress={() => setModalVisible(true)}>
                     <Image
+                        style={styles.buttonIcon}
+                        source={require('../assets/images/profilePage/dropdown.png')}
+                    />
+                </TouchableOpacity>
+                {/* <Pressable
+                    onPress={() => setModalVisible(true)}>
+                    <Image
+                        style={{ height: 50 }}
                         source={require('../assets/images/profilePage/threedots.png')}
                     />
-                </View>
+                </Pressable> */}
+                {/* <View onPress={() => setModalVisible(true)}>
+                    <Image
+                        style={{ height: 50 }}
+                        source={require('../assets/images/profilePage/threedots.png')}
+                    />
+                </View> */}
             </View>
             <ScrollView>
                 <View style={styles.ProfileSectionWrapper}>
@@ -43,7 +71,7 @@ const ProfileScreen = () => {
                             style={styles.userImage}
                             source={require('../assets/images/profilePage/face.jpeg')}
                         />
-                        <Text style={styles.userName}>Catherin</Text>
+                        <Text style={styles.userName}>{info?.profile?.user}</Text>
                     </View>
                     <View style={styles.followersCountSection}>
                         <View style={styles.followingCount}>
@@ -60,7 +88,7 @@ const ProfileScreen = () => {
                                 <Text style={styles.countSubTitle}>Following</Text>
                             </View>
                         </View>
-                        <View style={styles.buttonWrapper}>
+                        {/* <View style={styles.buttonWrapper}>
                             <TouchableOpacity style={styles.messagesButtonWrapper}>
                                 <Text style={styles.mesagesTitle}>Messages</Text>
                             </TouchableOpacity>
@@ -70,22 +98,17 @@ const ProfileScreen = () => {
                                     source={require('../assets/images/profilePage/profielbuttonplus.png')}
                                 />
                             </TouchableOpacity>
-                            <TouchableOpacity style={styles.ButtonItemWrapper}>
-                                <Image
-                                    style={styles.buttonIcon}
-                                    source={require('../assets/images/profilePage/dropdown.png')}
-                                />
-                            </TouchableOpacity>
-                        </View>
+                           
+                        </View> */}
                     </View>
                 </View>
                 <View style={styles.moreInfoWrapper}>
                     <Text style={styles.introText}>
-                        Discovering Stories Around the world
+                    {info?.profile?.bio}
                     </Text>
-                    <Text style={styles.urlText}>www.catherin.com</Text>
+                    <Text style={styles.urlText}>{info?.profile?.country}</Text>
                 </View>
-                <ScrollView style={styles.storiesWrapper} horizontal={true}>
+                {/* <ScrollView style={styles.storiesWrapper} horizontal={true}>
                     <View>
                         <Image
                             style={styles.storiesImage}
@@ -132,7 +155,7 @@ const ProfileScreen = () => {
                         />
                         <Text style={styles.storyProfName}>Catherin 6</Text>
                     </View>
-                </ScrollView>
+                </ScrollView> */}
 
                 <View style={styles.viewIconsWrapper}>
                     <Image
@@ -185,15 +208,15 @@ const ProfileScreen = () => {
                     />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => navigation.navigate('Search')}>
-                <Image
-                    style={styles.footerIcon}
-                    source={require('../assets/images/profilePage/search.png')}
-                />
+                    <Image
+                        style={styles.footerIcon}
+                        source={require('../assets/images/profilePage/search.png')}
+                    />
                 </TouchableOpacity>
-                <Image
+                {/* <Image
                     style={styles.footerIcon}
                     source={require('../assets/images/profilePage/heart.png')}
-                />
+                /> */}
                 <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
                     <Image
                         style={styles.footerIcon}
@@ -201,7 +224,32 @@ const ProfileScreen = () => {
                     />
                 </TouchableOpacity>
             </View>
-        </View>
+            <Modal
+                animationType="silde"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                    Alert.alert('Modal has been closed.');
+                    setModalVisible(!modalVisible);
+                }}>
+                <TouchableOpacity
+                    style={styles.container}
+                    activeOpacity={1}
+                    onPressOut={() => { setModalVisible(!modalVisible); }}
+                >
+                    <View style={styles.centeredView}>
+                        <View style={styles.modalView}>
+                            {/* <Text style={styles.modalText}>Hello World!</Text> */}
+                            <Pressable
+                                style={[styles.button, styles.buttonClose]}
+                                onPress={logout}>
+                                <Text style={styles.textStyle}>Logout</Text>
+                            </Pressable>
+                        </View>
+                    </View>
+                </TouchableOpacity>
+            </Modal>
+        </View >
     )
 }
 
@@ -217,9 +265,7 @@ export const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        borderBottomColor: AppColor.gray1,
-        borderBottomWidth: 1,
-        backgroundColor: AppColor.gray1,
+        height: 50
     },
     leftHeaderWrapper: {
         display: 'flex',
@@ -277,8 +323,11 @@ export const styles = StyleSheet.create({
         borderRadius: 5,
         borderWidth: 2,
         borderColor: AppColor.gray1,
-
-        padding: 4,
+        width: 50,
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        margin: 3
     },
     buttonIcon: {
         width: 25,
@@ -354,5 +403,46 @@ export const styles = StyleSheet.create({
         alignSelf: 'center',
         justifyContent: 'center',
 
+    },
+    centeredView: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 22,
+    },
+    modalView: {
+        margin: 20,
+        backgroundColor: 'white',
+        borderRadius: 20,
+        padding: 35,
+        alignItems: 'center',
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
+    },
+    button: {
+        borderRadius: 20,
+        padding: 10,
+        elevation: 2,
+    },
+    buttonOpen: {
+        backgroundColor: '#F194FF',
+    },
+    buttonClose: {
+        backgroundColor: '#2196F3',
+    },
+    textStyle: {
+        color: 'white',
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
+    modalText: {
+        marginBottom: 15,
+        textAlign: 'center',
     }
 });

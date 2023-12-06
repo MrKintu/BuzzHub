@@ -1,11 +1,11 @@
 import { StyleSheet, Text, TextInput, View } from "react-native";
 import React from 'react';
 
-const InputBox = ({placeholder,onBlur,OnChangedText,value,touched,securetextEntry,keyboardtype,maxLength,errors}) => {
+const InputBox = ({placeholder,onBlur,OnChangedText,value,touched,securetextEntry,keyboardtype,maxLength,errors,type,defaultVal}) => {
     return (
         <View style={styles.mainContainer}>
             <TextInput style={styles.TextInput} placeholder={placeholder} 
-            onChangeText={OnChangedText} onBlur={onBlur} value={value} touched={touched}
+            onChangeText={OnChangedText} onBlur={onBlur} value={value} defaultValue={defaultVal} touched={touched}
             secureTextEntry={securetextEntry} keyboardType={keyboardtype} maxLength={maxLength}
             />
             {errors && touched && <Text style={{color:"red", paddingLeft: 5}} >{errors}</Text> }
