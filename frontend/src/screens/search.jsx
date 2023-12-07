@@ -84,10 +84,10 @@ const SearchHomeScreen = () => {
             source={require('../assets/images/profilePage/search.png')}
           />
         </TouchableOpacity>
-        <Image
+        {/* <Image
           style={styles.footerIcon}
           source={require('../assets/images/profilePage/heart.png')}
-        />
+        /> */}
         <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
           <Image
             style={styles.footerIcon}
