@@ -1,9 +1,11 @@
-import React, { Component } from 'react';
-import { Text, View, StyleSheet, ScrollView, Image, TouchableOpacity } from 'react-native';
+import React, { useState, useContext, useEffect } from 'react';
+import { View, StyleSheet, ScrollView, Image, TouchableOpacity } from 'react-native';
 import { AppColor } from "../utils/appColors";
 import Feed from '../components/Feed';
 import Stories from '../components/Stories';
-import Icon from 'react-native-vector-icons/AntDesign';
+import { AuthContext } from '../context/AuthContext';
+
+
 import { useNavigation } from '@react-navigation/native';
 
 
@@ -11,6 +13,11 @@ const FeedScreen = () => {
 
     const navigation = useNavigation();
 
+    const { profile } = useContext(AuthContext);
+
+    useEffect( () => {
+        profile();
+          }, []);
 
     return (
 
@@ -48,18 +55,19 @@ const FeedScreen = () => {
                         style={styles.footerIcon}
                         source={require('../assets/images/profilePage/home.png')}
                     />
+              
                 </TouchableOpacity>
-                
+
                 <TouchableOpacity onPress={() => navigation.navigate('Search')}>
-                <Image
-                    style={styles.footerIcon}
-                    source={require('../assets/images/profilePage/search.png')}
-                />
+                    <Image
+                        style={styles.footerIcon}
+                        source={require('../assets/images/profilePage/search.png')}
+                    />
                 </TouchableOpacity>
-                <Image
+                {/* <Image
                     style={styles.footerIcon}
                     source={require('../assets/images/profilePage/heart.png')}
-                />
+                /> */}
                 <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
                     <Image
                         style={styles.footerIcon}

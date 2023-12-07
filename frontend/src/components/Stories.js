@@ -17,7 +17,7 @@ export class Stories extends Component {
             />
             <Text style={styles.profileName}>Catherin</Text>
           </View>
-          <View style={styles.otherStoryImageWrapper}>
+          {/* <View style={styles.otherStoryImageWrapper}>
             <Image
               style={styles.storyRound}
               source={require('../assets/images/storiescircle.png')}
@@ -27,8 +27,8 @@ export class Stories extends Component {
               source={require('../assets/images/face.jpeg')}
             />
             <Text style={styles.profileName}>Seona</Text>
-          </View>
-          <View style={styles.otherStoryImageWrapper}>
+          </View> */}
+          {/* <View style={styles.otherStoryImageWrapper}>
             <Image
               style={styles.storyRound}
               source={require('../assets/images/storieslivecircle.png')}
@@ -38,8 +38,8 @@ export class Stories extends Component {
               source={require('../assets/images/face.jpeg')}
             />
             <Text style={styles.profileName}>Margeret</Text>
-          </View>
-          <View style={styles.otherStoryImageWrapper}>
+          </View> */}
+          {/* <View style={styles.otherStoryImageWrapper}>
             <Image
               style={styles.storyRound}
               source={require('../assets/images/storiescircle.png')}
@@ -49,7 +49,7 @@ export class Stories extends Component {
               source={require('../assets/images/face.jpeg')}
             />
             <Text style={styles.profileName}>Sonia</Text>
-          </View>
+          </View> */}
         </ScrollView>
       </View>
     );
