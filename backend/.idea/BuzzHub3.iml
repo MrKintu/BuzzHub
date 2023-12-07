@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="PYTHON_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/logs" />
+      <excludeFolder url="file://$MODULE_DIR$/media" />
+      <excludeFolder url="file://$MODULE_DIR$/staticfiles" />
+      <excludeFolder url="file://$MODULE_DIR$/authy/face_recognition/TrainingImage" />
+      <excludeFolder url="file://$MODULE_DIR$/authy/ImagesUnknown" />
+      <excludeFolder url="file://$MODULE_DIR$/authy/TrainingImage" />
+    </content>
+    <orderEntry type="jdk" jdkName="Python 3.11 (buzzhub1)" jdkType="Python SDK" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+  <component name="PyDocumentationSettings">
+    <option name="format" value="PLAIN" />
+    <option name="myDocStringFormat" value="Plain" />
+  </component>
+</module>

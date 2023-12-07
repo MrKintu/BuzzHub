@@ -1,0 +1,12 @@
+### Django template
+*.log
+*.pot
+*.pyc
+*.env
+__pycache__/
+media/
+logs/
+static/
+staticfiles/
+authy/ImagesUnknown/
+authy/TrainingImage/
