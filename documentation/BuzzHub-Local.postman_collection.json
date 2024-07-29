@@ -38,11 +38,6 @@
 							"mode": "formdata",
 							"formdata": [
 								{
-									"key": "Name",
-									"value": "Sample Name",
-									"type": "text"
-								},
-								{
 									"key": "NewFile",
 									"type": "file",
 									"src": "/G:/My Drive/Important Details/Personal/Old Passport.pdf"
@@ -93,7 +88,7 @@
 							"formdata": [
 								{
 									"key": "file_name",
-									"value": "JbbtJec55c669ee9e46afb5878cd65bf5c295.pdf",
+									"value": "NQMje5e61e14bbb03405f9eebff8f41f4eafb.pdf",
 									"type": "text"
 								},
 								{
@@ -405,7 +400,7 @@
 								{
 									"key": "image",
 									"type": "file",
-									"src": []
+									"src": "/G:/My Drive/Ink/IMG_2351.JPG"
 								},
 								{
 									"key": "caption",
@@ -418,6 +413,16 @@
 									"type": "text"
 								}
 							]
+						},
+						"url": {
+							"raw": "{{localhost}}/new-post/",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"new-post",
+								""
+							]
 						}
 					},
 					"response": []
@@ -428,12 +433,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{localhost}}/<post_id>",
+							"raw": "{{localhost}}/f12f5fd8-ed3c-442f-807f-519e5fffcdbc/",
 							"host": [
 								"{{localhost}}"
 							],
 							"path": [
-								"<post_id>"
+								"f12f5fd8-ed3c-442f-807f-519e5fffcdbc",
+								""
 							]
 						}
 					},
@@ -445,14 +451,15 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{localhost}}/tags/<tag>",
+							"raw": "{{localhost}}/tag/#UFC/",
 							"host": [
 								"{{localhost}}"
 							],
 							"path": [
-								"tags",
-								"<tag>"
-							]
+								"tag",
+								""
+							],
+							"hash": "UFC/"
 						}
 					},
 					"response": []
@@ -463,13 +470,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{localhost}}/<post_id>/like",
+							"raw": "{{localhost}}/f12f5fd8-ed3c-442f-807f-519e5fffcdbc/like/",
 							"host": [
 								"{{localhost}}"
 							],
 							"path": [
-								"<post_id>",
-								"like"
+								"f12f5fd8-ed3c-442f-807f-519e5fffcdbc",
+								"like",
+								""
 							]
 						}
 					},
@@ -481,13 +489,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{localhost}}/<post_id>/favourite",
+							"raw": "{{localhost}}/f12f5fd8-ed3c-442f-807f-519e5fffcdbc/favourite/",
 							"host": [
 								"{{localhost}}"
 							],
 							"path": [
-								"<post_id>",
-								"favourite"
+								"f12f5fd8-ed3c-442f-807f-519e5fffcdbc",
+								"favourite",
+								""
 							]
 						}
 					},
@@ -522,14 +531,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{localhost}}/messages/direct/<username>/",
+							"raw": "{{localhost}}/messages/direct/mr_kintu/",
 							"host": [
 								"{{localhost}}"
 							],
 							"path": [
 								"messages",
 								"direct",
-								"<username>",
+								"mr_kintu",
 								""
 							]
 						}
@@ -580,19 +589,20 @@
 							"formdata": [
 								{
 									"key": "query",
-									"value": "Some text",
+									"value": "mr_kintu",
 									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "{{localhost}}/messages/search",
+							"raw": "{{localhost}}/messages/search/",
 							"host": [
 								"{{localhost}}"
 							],
 							"path": [
 								"messages",
-								"search"
+								"search",
+								""
 							]
 						}
 					},
@@ -646,14 +656,15 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{localhost}}/notifications/<notification_id>/delete",
+							"raw": "{{localhost}}/notifications/<notification_id>/delete/",
 							"host": [
 								"{{localhost}}"
 							],
 							"path": [
 								"notifications",
 								"<notification_id>",
-								"delete"
+								"delete",
+								""
 							]
 						}
 					},
