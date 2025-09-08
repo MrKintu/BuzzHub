@@ -10,3 +10,4 @@ static/
 staticfiles/
 authy/ImagesUnknown/
 authy/TrainingImage/
+.venv/
